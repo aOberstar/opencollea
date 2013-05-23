@@ -401,12 +401,8 @@ class CourseActivityResource(ModelResource):
 class ChatResource(ModelResource):
     user = fields.ForeignKey(UserProfileResource, 'user', full=True)
     class Meta:
-        queryset = Chat.objects.all()
+        queryset = Chat.objects.all()[:15]
         resource_name = 'chat'
+        ordering = ['-when']
         authorization = Authorization()
-    ordering = ['when']
-
-    def list(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
-        return self.create_response(request, Chat.objects.all())
 

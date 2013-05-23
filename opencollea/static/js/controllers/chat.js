@@ -145,9 +145,8 @@ app
         $scope.messages = new Array();
         $scope.$watch('chatData', function (newValue, oldValue) {
             if (newValue != oldValue && $scope.chatData.objects != $scope.messagesOld) {
-                console.log('actual shift');
                 $scope.messages = $scope.chatData.objects;
-            } else {console.info('no shift');}
+            }
         }, true);
         $scope.loadData = function () {
             $scope.chatData = Chat.query();
@@ -155,14 +154,14 @@ app
             var timer = setInterval(function(){
                 $scope.chatData = Chat.query();
                 $scope.$apply();
-            }, 5000);
+            }, 2000);
         };
         //initial load
         $scope.loadData();
 
         $scope.user_profile = UserProfile.get({userId: $scope.currentUser.id});
         $scope.postMessage = function() {
-            $scope.messages.push({
+            $scope.messages.unshift({
                 user: {
                     email: $scope.currentUser.email,
                     first_name: $scope.user_profile.first_name,
