@@ -1,3 +1,4 @@
+
 <div class="row-fluid">
     <h4>Live Chat</h4>
     <div class="chatControl">
@@ -7,10 +8,10 @@
     </div>
 
     <ul class="chatMessages">
-        <li data-ng-repeat="message in messages | limitTo:7 | reverse">
-            <gravatar-image data-email="message.email" data-size="100" data-default="http://www.gravatar.com/avatar/uporabnik-nima-slike?size=100"></gravatar-image>
-            <div class="author">{{ message.author }}</div>
-            <div class="time">{{ message.time }}</div>
+        <li data-ng-repeat="message in messages | limitTo:10 | reverse" ng-cloak>
+            <gravatar-image data-email="message.user.email" data-size="100" data-default="http://www.gravatar.com/avatar/uporabnik-nima-slike?size=100"></gravatar-image>
+            <div class="author">{{ message.user.first_name }} {{ message.user.last_name }}</div>
+            <div class="time">{{ message.when }}</div>
             <div class="content"><pre>{{ message.content }}</pre></div>
         </li>
     </ul>

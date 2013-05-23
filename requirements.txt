@@ -6,3 +6,4 @@ webassets
 django-assets
 cssmin
 django-tastypie
+django-socketio

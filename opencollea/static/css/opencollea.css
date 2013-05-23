@@ -148,7 +148,7 @@ ul.doubleList li a:hover {
 
 ul.chatMessages {
   list-style-type: none;
-  width: 500px;
+  width: 100%;
 }
 
 .chatMessages li {
