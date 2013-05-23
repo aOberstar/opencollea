@@ -177,4 +177,3 @@ class Chat(models.Model):
 
     def save(self, *args, **kwargs):
         super(Chat, self).save(*args, **kwargs)
-

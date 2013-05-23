@@ -149,15 +149,16 @@ app
             }
         }, true);
         $scope.loadData = function () {
-            $scope.chatData = Chat.query();
-
-            var timer = setInterval(function(){
-                $scope.chatData = Chat.query();
-                $scope.$apply();
-            }, 2000);
+            //$scope.chatData = Chat.query();
+             Chat.get({limit: 15, order_by: '-when'}, function (dt) {
+                    $scope.chatData = dt;
+                });
         };
         //initial load
         $scope.loadData();
+        var timer = setInterval(function(){
+               $scope.loadData();
+            }, 2000);
 
         $scope.user_profile = UserProfile.get({userId: $scope.currentUser.id});
         $scope.postMessage = function() {

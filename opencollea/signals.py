@@ -27,4 +27,3 @@ def course_activity_stream(sender, instance, created, **kwargs):
             action_performed=CourseActivity.ACTION_CREATED
         )
         activity.save()
-

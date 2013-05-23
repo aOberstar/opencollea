@@ -390,6 +390,7 @@ class EtherpadNoteResource(ModelResource):
 class CourseActivityResource(ModelResource):
     user = fields.ForeignKey(UserProfileResource, 'user', full=True)
     course = fields.ForeignKey(CourseResource, 'course')
+
     class Meta:
         queryset = CourseActivity.objects.all()
         resource_name = 'course_activity'
@@ -398,11 +399,12 @@ class CourseActivityResource(ModelResource):
             'course': ALL,
         }
 
+
 class ChatResource(ModelResource):
     user = fields.ForeignKey(UserProfileResource, 'user', full=True)
-    class Meta:
-        queryset = Chat.objects.all()[:15]
-        resource_name = 'chat'
-        ordering = ['-when']
-        authorization = Authorization()
 
+    class Meta:
+        queryset = Chat.objects.all()
+        resource_name = 'chat'
+        ordering = ['when']
+        authorization = Authorization()
