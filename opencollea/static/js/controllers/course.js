@@ -169,7 +169,7 @@ app
             if (newValue != oldValue) {
                 $scope.activities = CourseActivity.get({course: $scope.course.id}, function () {
                     // Success
-                    $scope.activities = $scope.activities.objects;
+                    //$scope.activities = $scope.activities.objects;
                 });
             }
         });

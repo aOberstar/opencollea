@@ -1,7 +1,7 @@
 <div class="row-fluid" ng-controller="ActivityCtrl">
 
     <ul class="chatMessages span12">
-        <li style="width:100%;" ng-repeat="activity in activities">
+        <li style="width:100%;" ng-repeat="activity in activities.objects">
             <gravatar-image data-email="activity.user.email" data-size="100" data-default="http://www.gravatar.com/avatar/uporabnik-nima-slike?size=100"></gravatar-image>
             <div class="author">
                 <a title="{{ activity.user.first_name }} {{ activity.user.last_name }} profile"
