@@ -168,3 +168,13 @@ class CourseActivity(models.Model):
     action_performed = models.CharField(max_length=24, choices=ACTIONS,
                                         default=ACTION_CREATED)
     when = models.DateTimeField(auto_now=True)
+
+
+class Chat(models.Model):
+    user = models.ForeignKey(UserProfile)
+    content = models.CharField(max_length=4096, blank=True)
+    when = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        super(Chat, self).save(*args, **kwargs)
+

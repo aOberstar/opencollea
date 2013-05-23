@@ -74,6 +74,24 @@
         }
     },
     {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "zemers",
+            "first_name": "Frauen",
+            "last_name": "Parkplatz",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2013-05-17T06:19:52.939Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$AC9NM3r7PU7B$hokwLERRJ1ukKd/zPqW3oJONdtcH0o2uxSWV5FlnsN0=",
+            "email": "ziga.emersic@gmail.com",
+            "date_joined": "2013-05-17T06:17:46.119Z"
+        }
+    },
+    {
         "pk": 2,
         "model": "auth.user",
         "fields": {
@@ -137,7 +155,7 @@
         }
     },
     {
-        "pk": 3,
+        "pk": 1,
         "model": "opencollea.userprofile",
         "fields": {
             "website": "",
@@ -306,6 +324,33 @@
             "content": "You must definitively buy Computer Organisation book (1985 version).",
             "question": 4,
             "user": 2
+        }
+    },
+    {
+        "pk": 1,
+        "model": "opencollea.chat",
+        "fields": {
+            "user": 1,
+            "content": "Hojladrija drom pompom, sem že pijan od Đengota",
+            "when": "2013-05-17T06:17:59.119Z"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "opencollea.chat",
+        "fields": {
+            "user": 2,
+            "content": "Tale objava je zelo dolga \n in je zgolj testne narave!\n\nIma tudi nekaj new lineov in tega",
+            "when": "2013-05-17T06:17:47.119Z"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "opencollea.chat",
+        "fields": {
+            "user": 3,
+            "content": "Jaz sem pa Micka in tipkam eXtremno hitro! Hokus pokus riba ni procesor. Programiranje pečeno.",
+            "when": "2013-05-17T06:17:46.119Z"
         }
     }
 ]

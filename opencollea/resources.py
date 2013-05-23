@@ -8,7 +8,7 @@ from tastypie.utils import trailing_slash
 from tastypie import fields, resources
 
 from opencollea.models import Course, UserProfile, Question, EtherpadNote, \
-    CourseActivity, Reference
+    CourseActivity, Reference, Chat
 from opencollea.forms import UserProfileForm, RegistrationDetailsForm, \
     EtherpadNoteForm, Answer, AnswerForm, QuestionForm, ReferenceForm
 
@@ -444,3 +444,13 @@ class ReferenceResource(ModelResource):
         validation = ModelCleanedDataFormValidation(
             form_class=ReferenceForm
         )
+
+
+class ChatResource(ModelResource):
+    user = fields.ForeignKey(UserProfileResource, 'user', full=True)
+
+    class Meta:
+        queryset = Chat.objects.all()
+        resource_name = 'chat'
+        ordering = ['when']
+        authorization = Authorization()
