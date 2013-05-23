@@ -34,4 +34,10 @@ app
             'postNew': {method: 'POST'}
         });
     }])
+
+
+    .factory('CourseActivity', ['$resource', function ($resource) {
+        return $resource('/api/v1/course_activity', {}, {});
+    }])
+
 ;

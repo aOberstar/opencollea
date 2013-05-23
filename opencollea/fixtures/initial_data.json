@@ -163,6 +163,32 @@
         }
     },
     {
+        "pk": 3,
+        "model": "opencollea.userprofile",
+        "fields": {
+            "website": "",
+            "lives_in": "Ljubljana",
+            "age_range": null,
+            "is_lives_in_public": false,
+            "courses_enrolled": [],
+            "area_of_study": null,
+            "is_biography_public": false,
+            "is_occupation_public": false,
+            "is_language_code_public": false,
+            "is_age_range_public": false,
+            "gender": null,
+            "avatar": "",
+            "groups": [],
+            "language_code": null,
+            "is_gender_public": false,
+            "timezone": "Europe/Ljubljana",
+            "user_permissions": [],
+            "is_area_of_study_public": false,
+            "biography": "Jaz sem Micka, prihajam iz -- pa saj sem napisala :)",
+            "occupation": null
+        }
+    },
+    {
         "pk": 1,
         "model": "opencollea.question",
         "fields": {

@@ -1,0 +1,31 @@
+<div class="row-fluid" ng-controller="ActivityCtrl">
+
+    <ul class="chatMessages span12">
+        <li style="width:100%;" ng-repeat="activity in activities | reverse">
+            <gravatar-image data-email="activity.user.email" data-size="100" data-default="http://www.gravatar.com/avatar/uporabnik-nima-slike?size=100"></gravatar-image>
+            <div class="author">
+                <a title="{{ activity.user.first_name }} {{ activity.user.last_name }} profile"
+                   href="#/profile/{{ activity.user.username }}">
+                    {{ activity.user.first_name }} {{ activity.user.last_name }}
+                </a>
+            </div>
+            <div class="time">{{ activity.when | date:'dd.MM.yyyy @ HH:mm'  }}</div>
+
+            <!-- If question -->
+            <div class="content" ng-show="activity.model_name == 'Question'">
+                <pre>Asked <b>{{ activity.msg }}</b>.</pre>
+            </div>
+
+            <!-- If answer -->
+            <div class="content" ng-show="activity.model_name == 'Answer'">
+                <pre>Answered on <span ng-bind-html-unsafe="activity.msg"></span>.</pre>
+            </div>
+
+            <!-- If note -->
+            <div class="content" ng-show="activity.model_name == 'EtherpadNote'">
+                <pre>Created new note <b>{{ activity.msg }}</b>.</pre>
+            </div>
+        </li>
+    </ul>
+
+</div>

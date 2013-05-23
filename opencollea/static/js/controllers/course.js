@@ -1,13 +1,13 @@
 
 app
 
-    .controller('CourseCtrl', ['$scope', '$routeParams', 'Course', function ($scope, $routeParams, Course) {
+    .controller('CourseCtrl', ['$scope', '$rootScope', '$routeParams', 'Course', function ($scope, $rootScope, $routeParams, Course) {
         $scope.subpage = $routeParams.subpage === undefined ? 'MAIN' : $routeParams.subpage;
         $scope.param = $routeParams.subpageParam === undefined ? '' : $routeParams.subpageParam;
 
         Course.get({machine_readable_title: $routeParams.courseTitle}, function (course) {
             // Success
-            $scope.course = course.objects[0];
+            $rootScope.course = course.objects[0];
         }, function () {
             // Fail
         });
@@ -31,6 +31,7 @@ app
         $scope.createNewNote = function () {
             // Save note and redirect to created note!
             var Note = new EtherpadNote({
+                user: $scope.currentUser.resource_uri,
                 course: $scope.course.resource_uri,
                 title: $scope.title
             });
@@ -93,65 +94,85 @@ app
             });
         }
     }])
-    /*
-     .controller('AddNewAnswerCtrl', ['$scope', '$rootScope', '$window', 'Answer', function($scope, $rootScope, $window, Answer) {
 
-     $scope.addNewAnswer = function () {
-     // Save note and redirect to created note!
-     var Answer = new Answer({
-     course: $scope.course.resource_uri,
-     title: $scope.title
-     });
-     Answer.$save(function () {
-     $rootScope.notifications = [{
-     class: 'alert-success',
-     content: 'Answer added.'
-     }];
-     $scope.isError = false;
+    .controller('QAController', ['$scope', '$rootScope', 'Question', 'Course', function ($scope, $rootScope, Question, Course) {
+        $scope.errors = {};
+        $scope.loading = false;
+        $scope.isModalOpen = false;
+        $scope.modalOpts = {
+            backdropFade: true,
+            dialogFade: true
+        };
 
-     // Redirect user to this new note
-     /* EtherpadNote.get({course: $scope.course.id, limit: 1, order_by: '-id'}, function (latestNote) {
-     latestNote = latestNote.objects[0];
-     $window.location.href = '#/course/' + $scope.course.machine_readable_title + '/notes/' + latestNote.machine_readable_title;
-     });
-     }, function () {
-     $scope.isError = true;
-     });
-     };
-     }])*/
+        $scope.openModal = function () {
+            $scope.isModalOpen = true;
+        };
 
-    .controller('CourseDetailCtrl', ['$scope', '$routeParams', 'Question', 'Answer', 'UserProfile', 'Course', function($scope, $routeParams, Question, Answer, UserProfile, Course) {
+        $scope.closeModal = function () {
+            $scope.isModalOpen = false;
+        };
 
-        Course.get({machine_readable_title: $routeParams.courseTitle}, function (course) {
-            $scope.course = course.objects[0];
-        });
-        $scope.courseTitle = $routeParams.courseTitle;
-        $scope.questions = Question.query();
-        $scope.user_profile = UserProfile.query();
-        $scope.answers = Answer.query();
+        $scope.createNewQuestion = function () {
+            $scope.loading = true;
+            var q = new Question({
+                user: $scope.currentUser.resource_uri,
+                title: $scope.title,
+                content: $scope.content,
+                course: $rootScope.course.resource_uri
+            });
 
-        /*$scope.addNewAnswer = function() {
-         $scope.answers.$save({ question: $scope.question.id, user: $scope.question.user.id, content: $scope.newAnswer.content})
-         }*/
-
-        // To ne dela :/
-        $scope.addNewAnswer = function() {
-            var Answer = new Answer({
-                question: $scope.question.id,
-                user: $scope.question.user.id,
-                content: $scope.newAnswer.content
-            })
-            Answer.$save(function () {
-                $rootScope.notifications = [{
-                    class: 'alert-success',
-                    content: 'Answer added.'
-                }];
-            }, function () {
+            q.$save(function () {
+                // Success
+                Course.get({id: $rootScope.course.id}, function (course) {
+                    $rootScope.course = course;
+                    $scope.isError = false;
+                    $scope.loading = false;
+                    $scope.isModalOpen = false;
+                });
+            }, function (response) {
+                $scope.errors = response.data;
                 $scope.isError = true;
+                $scope.loading = false;
+            });
+        }
+    }])
+
+    .controller('AnswerSubmission', ['$scope', '$rootScope', 'Answer', 'Course', function ($scope, $rootScope, Answer, Course) {
+        $scope.errors = {};
+        $scope.loading = false;
+
+        $scope.answer = function (question) {
+            $scope.loading = true;
+            var ans = new Answer({
+                question: question.resource_uri,
+                user: $scope.currentUser.resource_uri,
+                content: $scope.answerMessage
+            });
+            ans.$save(function () {
+                // Success
+                Course.get({id: $rootScope.course.id}, function (course) {
+                    $rootScope.course = course;
+                    $scope.isError = false;
+                    $scope.loading = false;
+                });
+            }, function (response) {
+                $scope.errors.answer = response.data.answer.content;
+                $scope.isError = true;
+                $scope.loading = false;
             });
         }
     }])
 
 
+    .controller('ActivityCtrl', ['$scope', 'CourseActivity', function ($scope, CourseActivity) {
+        $scope.$watch('course', function (newValue, oldValue) {
+            if (newValue != oldValue) {
+                $scope.activities = CourseActivity.get({course: $scope.course.id}, function () {
+                    // Success
+                    $scope.activities = $scope.activities.objects;
+                });
+            }
+        });
+    }])
 
 ;

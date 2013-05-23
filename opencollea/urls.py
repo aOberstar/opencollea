@@ -6,7 +6,8 @@ import code_register
 
 from opencollea.resources import \
     LoginResource, CourseResource, UserProfileResource, QuestionResource, \
-    RegistrationDetailsResource, EtherpadNoteResource, AnswerResource
+    RegistrationDetailsResource, EtherpadNoteResource, AnswerResource, \
+    CourseActivityResource
 from opencollea import settings
 
 import code_register.resources
@@ -25,6 +26,7 @@ v1_api.register(RegistrationDetailsResource())
 v1_api.register(QuestionResource())
 v1_api.register(AnswerResource())
 v1_api.register(EtherpadNoteResource())
+v1_api.register(CourseActivityResource())
 
 # code_register's API resources
 v1_api.register(code_register.resources.GenderResource())

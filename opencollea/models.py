@@ -114,10 +114,10 @@ class Reference(models.Model):
 class Question(models.Model):
     user = models.ForeignKey(UserProfile)
     title = models.CharField(max_length=50)
-    content = models.TextField()
-    tags = models.ManyToManyField(Tag)
+    content = models.TextField(blank=False)
+    tags = models.ManyToManyField(Tag, blank=True)
     course = models.ForeignKey('Course', related_name='questions')
-    published = models.DateField()
+    published = models.DateField(auto_now=True)
 
     def __unicode__(self):
         return self.title
@@ -133,6 +133,7 @@ class Answer(models.Model):
 
 
 class EtherpadNote(models.Model):
+    user = models.ForeignKey(UserProfile)
     course = models.ForeignKey(Course)
     title = models.CharField(max_length=48, blank=False, null=False)
     machine_readable_title = models.SlugField(max_length=48, unique=True,
@@ -152,3 +153,19 @@ class EtherpadNote(models.Model):
                           % (self.course.id,
                           self.machine_readable_title)
         super(EtherpadNote, self).save(*args, **kwargs)
+
+
+class CourseActivity(models.Model):
+    ACTION_CREATED = 'created'
+    ACTIONS = (
+        (ACTION_CREATED, 'created'),
+    )
+    course = models.ForeignKey(Course)
+    user = models.ForeignKey(UserProfile)
+    msg = models.TextField(blank=True, null=True)
+    model_name = models.CharField(max_length=48, blank=False, null=False)
+    model_id = models.IntegerField()
+    action_performed = models.CharField(max_length=24, choices=ACTIONS,
+                                        default=ACTION_CREATED)
+    when = models.DateTimeField(auto_now=True)
+

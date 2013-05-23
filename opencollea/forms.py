@@ -44,6 +44,11 @@ class EtherpadNoteForm(forms.ModelForm):
         model = EtherpadNote
 
 
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+
+
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer

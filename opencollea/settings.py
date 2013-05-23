@@ -200,3 +200,6 @@ CRON_CLASSES = [
 FIXTURE_DIRS = (
     '/opencollea/fixtures/',
 )
+
+# Za potrebe activity streama - annotationi (ne odstrani tega importa!!!)
+import signals

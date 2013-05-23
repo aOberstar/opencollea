@@ -2,12 +2,16 @@
     <div class="row-fluid">
         <h4>Welcome to {{course.title}}</h4>
         <ul class="nav nav-tabs">
-            <li><a href="#activity">Activity</a></li>
+            <li ng-class="{active: subpage == 'activity'}"><a href="#/course/{{ course.machine_readable_title }}/activity">Activity</a></li>
             <li><a href="#references">References</a></li>
             <li ng-class="{active: subpage == 'questions'}"><a href="#/course/{{ course.machine_readable_title }}/questions">Questions & Answers</a></li>
             <li ng-class="{active: subpage == 'notes'}"><a href="#/course/{{ course.machine_readable_title }}/notes">Notes</a></li>
         </ul>
         <div>
+            <!-- Activity -->
+            <div ng-show="subpage == 'activity'">
+                <div class="tab-pane" id="notes" ng-include src="'/static/partials/course/course-activity.html'"></div>
+            </div>
             <!-- Notes -->
             <div ng-show="subpage == 'notes'">
                 <div class="tab-pane" id="notes" ng-include src="'/static/partials/course/course-notes.html'"></div>
