@@ -99,16 +99,16 @@ class ReferenceType(models.Model):
 
 class Reference(models.Model):
     title = models.CharField(max_length=50)
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey('Course', related_name='references')
     user = models.ForeignKey(UserProfile)
     author = models.CharField(max_length=50)
-    type = models.ForeignKey(ReferenceType)
-    attachments = models.ManyToManyField(Attachment)
-    tags = models.ManyToManyField(Tag)
+    #type = models.ForeignKey(ReferenceType)
+    #attachments = models.ManyToManyField(Attachment)
+    tags = models.ManyToManyField(Tag, blank=True)
     abstract = models.TextField()
     note = models.TextField()
-    published = models.DateField()
-    link = models.URLField()
+    published = models.DateField(auto_now=True)
+    link = models.URLField(blank=True)
 
 
 class Question(models.Model):
@@ -168,4 +168,3 @@ class CourseActivity(models.Model):
     action_performed = models.CharField(max_length=24, choices=ACTIONS,
                                         default=ACTION_CREATED)
     when = models.DateTimeField(auto_now=True)
-

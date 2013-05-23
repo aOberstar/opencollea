@@ -40,4 +40,10 @@ app
         return $resource('/api/v1/course_activity', {}, {});
     }])
 
+
+    .factory('Reference', ['$resource', function ($resource) {
+        return $resource('/api/v1/reference/:id', {}, {
+            'query': {method: 'GET'}
+        });
+    }])
 ;

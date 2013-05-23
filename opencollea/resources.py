@@ -8,9 +8,9 @@ from tastypie.utils import trailing_slash
 from tastypie import fields, resources
 
 from opencollea.models import Course, UserProfile, Question, EtherpadNote, \
-    CourseActivity
+    CourseActivity, Reference
 from opencollea.forms import UserProfileForm, RegistrationDetailsForm, \
-    EtherpadNoteForm, Answer, AnswerForm, QuestionForm
+    EtherpadNoteForm, Answer, AnswerForm, QuestionForm, ReferenceForm
 
 from fixes.tastypie.validation import ModelCleanedDataFormValidation
 import code_register.resources
@@ -123,6 +123,12 @@ class UserProfileResource(ModelResource):
                    trailing_slash()),
                 self.wrap_view('get_courses_not_enrolled'),
                 name="api_get_courses_not_enrolled"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)"
+                r"/courses_enrolled%s$"
+                % (self._meta.resource_name,
+                   trailing_slash()),
+                self.wrap_view('get_courses_enrolled'),
+                name="api_get_courses_enrolled"),
         ]
 
     def save_m2m(self, bundle):
@@ -224,6 +230,31 @@ class UserProfileResource(ModelResource):
         self.log_throttled_access(request)
         return self.create_response(request, object_list)
 
+    def get_courses_enrolled(self, request, **kwargs):
+        """
+        Za uporabnika vrne razreda v katere je vpisan.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        course_resource = CourseResource()
+        objects = []
+        for course in Course.objects.filter(
+                id__in=[c.id for c in UserProfile.objects.get
+                        (pk=kwargs.get('pk', 0)).courses_enrolled.all()]
+        ):
+            bundle = course_resource.build_bundle(obj=course, request=request)
+            bundle = course_resource.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
+
 
 class QuestionResource(ModelResource):
     # dostop preko foreignKey
@@ -264,6 +295,8 @@ class CourseResource(ModelResource):
                              'mooc', null=True)
     questions = fields.ToManyField('opencollea.resources.QuestionResource',
                                    'questions', null=True, full=True)
+    references = fields.ToManyField('opencollea.resources.ReferenceResource',
+                                    'references', null=True, full=True)
 
     class Meta:
         queryset = Course.objects.all()
@@ -390,6 +423,7 @@ class EtherpadNoteResource(ModelResource):
 class CourseActivityResource(ModelResource):
     user = fields.ForeignKey(UserProfileResource, 'user', full=True)
     course = fields.ForeignKey(CourseResource, 'course')
+
     class Meta:
         queryset = CourseActivity.objects.all()
         resource_name = 'course_activity'
@@ -398,3 +432,15 @@ class CourseActivityResource(ModelResource):
             'course': ALL,
         }
 
+
+class ReferenceResource(ModelResource):
+    course = fields.ToOneField('opencollea.resources.CourseResource', 'course')
+    user = fields.ToOneField(UserProfileResource, 'user', full=True)
+
+    class Meta:
+        queryset = Reference.objects.all()
+        resource_name = 'reference'
+        authorization = Authorization()
+        validation = ModelCleanedDataFormValidation(
+            form_class=ReferenceForm
+        )

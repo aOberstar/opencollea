@@ -1,0 +1,73 @@
+<div class="row-fluid" ng-controller="ReferenceCtrl">
+    <a title="Add reference" class="btn btn-large btn-success pull-right" ng-click="openModal()">
+            <i class="icon-plus"></i> Add reference
+    </a>
+
+    <div modal="isModalOpen" options="modalOpts">
+        <div class="modal-header">
+            <h4>Add reference</h4>
+        </div>
+        <form ng-submit="createNewReference()">
+            <div class="modal-body">
+                <!-- Author -->
+                <div class="control-group" ng-class="{error: errors.reference.author}">
+                    <label class="control-label">Author</label>
+                    <input ng-model="author" type="text" class="input-xlarge" placeholder="Author">
+                    <span class="help-inline" ng-repeat="error_msg in errors.reference.author">{{ error_msg }}</span>
+                </div>
+                <!-- Title -->
+                <div class="control-group" ng-class="{error: errors.reference.title}">
+                    <label class="control-label">Title</label>
+                    <textarea ng-model="title" type="text" class="input-xlarge" placeholder="Reference title"></textarea>
+                    <span class="help-inline" ng-repeat="error_msg in errors.reference.title">{{ error_msg }}</span>
+                </div>
+                <!-- Abstract -->
+                <div class="control-group" ng-class="{error: errors.reference.abstract}">
+                    <label class="control-label">Abstract</label>
+                    <textarea ng-model="abstract" type="text" class="input-xlarge" placeholder="Reference abstract"></textarea>
+                    <span class="help-inline" ng-repeat="error_msg in errors.reference.abstract">{{ error_msg }}</span>
+                </div>
+                <!-- Note -->
+                <div class="control-group" ng-class="{error: errors.reference.note}">
+                    <label class="control-label">Note</label>
+                    <textarea ng-model="note" type="text" class="input-xlarge" placeholder="Reference note"></textarea>
+                    <span class="help-inline" ng-repeat="error_msg in errors.reference.note">{{ error_msg }}</span>
+                </div>
+                <!-- Link -->
+                <div class="control-group" ng-class="{error: errors.reference.link}">
+                    <label class="control-label">Link</label>
+                    <textarea ng-model="link" type="text" class="input-xlarge" placeholder="Reference link"></textarea>
+                    <span class="help-inline" ng-repeat="error_msg in errors.reference.link">{{ error_msg }}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button form-save-button-loading="Adding reference..." class="btn btn-success" type="submit">Post</button>
+                <a class="btn" ng-click="closeModal()">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="row-fluid" ng-controller="ReferenceCtrl">
+    <ul class="unstyled">
+        <li ng-repeat="reference in course.references | orderBy:'-id'">
+            <div class="well well-large">
+
+                <!-- Author: Title; type -->
+                <h4>  {{ reference.author }}: {{ reference.title }} </h4> <span class="label label-info">{{ reference.type }}</span>
+                <!-- Posted by, time posted -->
+                <small><a ng-href="#/profile/{{ reference.user.username }}">
+                    {{ reference.user.first_name }} {{ reference.user.last_name }}</a> <i class="icon-time"></i> {{ reference.published|date:'fullDate'}}</small>
+                <!-- Abstract -->
+                <i class="icon-tag"></i> {{ reference.abstract }}
+                <!-- Note -->
+                <i class="icon-pencil"></i>{{ reference.note }}
+                <br>
+                <!-- Link -->
+                <i class="icon-globe"></i><a href="{{ reference.link }}">{{ reference.link }}</a>
+                <br>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -52,3 +52,9 @@ class QuestionForm(forms.ModelForm):
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
+
+
+class ReferenceForm(forms.ModelForm):
+    class Meta:
+        model = Reference
+        fields = ['author', 'title', 'abstract', 'note', 'link']

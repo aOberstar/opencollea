@@ -32,6 +32,7 @@ js = Bundle('js/jquery-2.0.0.js',
             'js/controllers/course.js',
             'js/controllers/home.js',
             'js/controllers/discover.js',
-            'js/controllers/chat.js',
+            #'js/controllers/chat.js',
+            'js/controllers/reference.js',
             output='js/opencollea.js')
 register('js_all', js)

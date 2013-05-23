@@ -4,17 +4,15 @@
             <!--Sidebar content-->
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
-                    <li class="nav-header">Your Classes (TBD)</li>
-                    <li class="active"><a href="#">Programming</a></li>
-                    <li><a href="#">Kodekov kotiček</a></li>
-                    <li><a href="#">Bratkove umetnosti</a></li>
-                    <li><a href="#">Jurišičev krožek</a></li>
-                    <li class="nav-header">Recommended Classes</li>
-                    <li ng-repeat='course in courses.objects'>
+                    <li class="nav-header">Your Courses</li>
+                    <li ng-repeat='course in courses_enrolled'>
+                        <a href="#/home/{{ course.machine_readable_title }}">{{ course.title }} </a>
+                    </li>
+                    <li class="nav-header">Recommended Courses</li>
+                    <li ng-repeat='course in courses_not_enrolled'>
                         <a href="#/home/{{ course.machine_readable_title }}">{{ course.title }} </a>
                     </li>
                     <br/>
-
                 </ul>
             </div><!--/.well -->
             <!--<div class="well sidebar-nav">
@@ -29,7 +27,7 @@
         <div class="span9" ng-show="showFeed">
             <!--Body content-->
             <div class="leaderboard">
-                <h1>{{ course.title }}</h1>
+                <h1><a href="#/course/{{ course.machine_readable_title }}">{{ course.title }}</a></h1>
                 <p>{{ course.description }}</p>
                 <p><a class="btn btn-success btn-large" href="#/course/{{ course.machine_readable_title }}">Go to class/enroll me</a></p>
             </div>
