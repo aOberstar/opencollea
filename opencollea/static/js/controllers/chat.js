@@ -144,9 +144,10 @@ app
     function ($scope, $window, $http, UserProfile, Course, Chat) {
         $scope.messages = new Array();
         $scope.$watch('chatData', function (newValue, oldValue) {
-            if (newValue!=oldValue) {
+            if (newValue != oldValue && $scope.chatData.objects != $scope.messagesOld) {
+                console.log('actual shift');
                 $scope.messages = $scope.chatData.objects;
-            }
+            } else {console.info('no shift');}
         }, true);
         $scope.loadData = function () {
             $scope.chatData = Chat.query();
