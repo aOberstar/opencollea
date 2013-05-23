@@ -52,8 +52,8 @@ app
     }
 }])
 
-.controller('UserClassProfileCtrl', ['$scope', '$http', '$rootScope', '$routeParams', 'UserProfile',
-   function($scope, $http, $rootScope, $routeParams, UserProfile) {
+.controller('UserClassProfileCtrl', ['$scope', '$http', '$rootScope', '$routeParams', 'UserProfile', 'CoursesUserNotEnrolled', 'CoursesUserEnrolled',
+   function($scope, $http, $rootScope, $routeParams, UserProfile, CoursesUserNotEnrolled, CoursesUserEnrolled) {
        UserProfile.getByUsername({username: $routeParams.username}, function(users) {
            if (users.objects.length != 1) {
                // User doesn't exists!
@@ -73,6 +73,14 @@ app
                $scope.user_profile.language_code = data;
            });
        });
+
+            CoursesUserNotEnrolled.get({userId: $scope.currentUser.id}, function (data) {
+                $scope.courses_not_enrolled = data.objects;
+            });
+
+            CoursesUserEnrolled.get({userId: $scope.currentUser.id}, function (data) {
+                $scope.courses_enrolled = data.objects;
+            });
 }])
 
 .controller('UserRegistrationDetailsEditCtrl', ['$scope', '$rootScope', '$window', 'RegistrationDetails',

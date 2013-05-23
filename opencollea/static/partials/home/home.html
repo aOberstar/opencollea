@@ -14,14 +14,7 @@
                     </li>
                     <br/>
                 </ul>
-            </div><!--/.well -->
-            <!--<div class="well sidebar-nav">
-                <ul class="nav nav-list">
-                    <li class="nav-header">Your Classes (TBD)</li>
-                    <li class="nav-header">All Classes</li>
-                    <li class="btn btn-link btn-large" ng-repeat='course in courses.objects' ng-click="changeCourse()"><i class="icon-chevron-right"></i> <a href="#/{{ course.machine_readable_title }}">{{ course.title }} </a></li>
-                </ul>
-            </div>-->
+            </div>
         </div>
 
         <div class="span9" ng-show="showFeed">
@@ -29,7 +22,7 @@
             <div class="leaderboard">
                 <h1><a href="#/course/{{ course.machine_readable_title }}">{{ course.title }}</a></h1>
                 <p>{{ course.description }}</p>
-                <p><a class="btn btn-success btn-large" href="#/course/{{ course.machine_readable_title }}">Go to class/enroll me</a></p>
+                <p><a class="btn btn-success btn-large" href="#/course/{{ course.machine_readable_title }}">Go to class</a></p>
             </div>
             <div class="row-fluid">
                 <h2>Last questions:</h2>
